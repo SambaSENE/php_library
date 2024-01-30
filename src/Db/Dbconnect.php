@@ -2,6 +2,7 @@
 
 namespace App\Db;
 
+use Exception;
 use PDO;
 
 /**
@@ -45,15 +46,16 @@ class DbConnect
         return self::$instance;
     }
 
-    public function setConfiguration(string $chemin_vers_le_fichier)
+    public static function setConfiguration(string $chemin_vers_le_fichier)
     {
 
         if (is_readable($chemin_vers_le_fichier)) {
 
-            self::$config = require("Config.php");
+            self::$config = require $chemin_vers_le_fichier;
         } else {
 
-            echo  "Fichier introuvable";
+           throw new Exception("Error Processing Request", 1);
+           
         }
     }
 }
